@@ -84,16 +84,13 @@ def get_lcm(x, y):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Calculate sum of multiples of the given integer(s)",
-        formatter_class=argparse.RawTextHelpFormatter)
+        description="Calculate sum of multiples of the given integer(s)")
 
     parser.add_argument('nums', type=int, nargs='+',
                         help='Integer with which to find the sum of their multiples')
 
     parser.add_argument('--range', '-r', type=int, nargs=2, metavar=('start', 'end'), required=True,
-                        help='Range in which to look for multiples (inclusive).\n'
-                            'If start < 1, start will be changed to 1. ' 
-                            'If end < start, end will be changed to start + 1')
+                        help='Range in which to look for multiples (inclusive).')
 
     args = parser.parse_args()
 
