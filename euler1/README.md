@@ -15,10 +15,12 @@ Here is an example.
 
 ___a<sub>1</sub>___ would equal 2, as it is the *1st* term in the range. ___a<sub>2</sub>___ = 4 | ___a<sub>3</sub>___ = 6 | ___a<sub>4</sub>___ = 8 | ___a<sub>n</sub>___ = 10. ___n___ is going to be total number of terms in the range. That number will always correlate with the index of the last term in the range. In this case,  ___a<sub>n</sub>___ = ___a<sub>5</sub>___ = 10.
 
-Here are some uses of the formula.
+__Here are some uses of the formula.__
 
 <img src='https://github.com/GOATMaxwellN/ProjectEulerSoftware/blob/main/euler1/formulae_images/example1.svg'>
+<img src='https://github.com/GOATMaxwellN/ProjectEulerSoftware/blob/main/euler1/formulae_images/example2.svg'>
+<img src='https://github.com/GOATMaxwellN/ProjectEulerSoftware/blob/main/euler1/formulae_images/example3.svg'>
 
-<hr>
+---
 
-Armed with that information, you could use this formula to now calculate for yourself what 
+## Code Functionality
