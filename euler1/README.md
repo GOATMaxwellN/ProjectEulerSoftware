@@ -4,7 +4,7 @@
 This can be easily solved using a loop of some sort, but that will get slow once we increase the range.
 I was curious as to how I could solve this more efficiently, and after a couple of hours, I discovered the **Finite Sum of Arithmetic Series** formula. 
 
-<a href="https://www.codecogs.com/eqnedit.php?latex=\LARGE&space;\frac{a_{1}&plus;a_{n}}{2}\times&space;n" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\LARGE&space;\frac{a_{1}&plus;a_{n}}{2}\times&space;n" title="\LARGE \frac{a_{1}+a_{n}}{2}\times n" /></a>
+![Finite Sum of Arithmetic Series Formula](https://github.com/GOATMaxwellN/ProjectEulerSoftware/main/euler1/formulae_images/fsoasFormula.svg)
 
 This formula calculates the sum of numbers in a range. For example, if I wanted to know what the answer would be if I added up all the numbers between 1 and 10, this formula would correctly give me the answer 55. Let's figure out how to use this formula now. 
 
