@@ -98,6 +98,32 @@ You can double check that with a loop to find that the answer is correct! This i
 
 # Solve for two different numbers.
 
-Alright, the above is awesome. If you only want the sum of multiples of one number, just pass one number to the CLI and it will do the work for you. Once you pass two numbers though, it very slightly different. 
+Alright, the above is awesome. If you only want the sum of multiples of one number, just pass one number to the CLI and it will do the work for you. Once you pass two numbers though, i very slightly different. 
 
-The thing that happens with two numbers is that there is going to a good chance there will be duplicate multiples. For example, the original Project Euler question asks for the sum of multiples of 3 or 5 under 1000, and they have a significant amount of shared multiples in that range, like 15, 30, 45, ...
+The thing that happens with two numbers is that there is going to a good chance there will be duplicate multiples. For example, the original Project Euler question asks for the sum of multiples of 3 or 5 under 1000, and they have a significant amount of shared multiples in that range, like 15, 30, 45, ....
+
+That means you can't just get the sum of multiples for 3 and 5, and then add them up. In the sub 1000 range, you will be several thousand off. Thankfully, there is a way around it, while still maintaining peak efficiency. That way is the __least common multiple__ (__LCM__). If you didn't know, the LCM of __two__ numbers will contain all their shared multiples in its own multiples. Here is an example with 3 and 5. Their LCM is 15.
+
+|||
+|----|----|
+|3|3, 6, 9, 12, __15__, 18, 21, 24, 27, __30__, 33, 36, 39, 42, __45__, 48, 51, 54, 57, __60__|
+|5|5, 10, __15__, 20, 25, __30__, 35, 40, __45__, 50, 55, __60__|
+|15|__15, 30, 45, 60__|
+
+Look at that, their LCM __only__ contains their shared multiples. So now, the equation makes itself obvious. Add up the sum of multiples of 3 and 5 together, then subtract the sum of multiples of 15, all within the same range of course. 
+
+This works for any two numbers, so this might be a better way to say it. Add up the sum of multiples of _a_ and _b_ together, then subtract the sum of multiples of LCM(a, b), all within the same range of course.
+
+The question that comes up now is how to find the LCM of two numbers _efficiently_. Sometimes it is just the product of those two numbers, sometimes it's not. The easiest way is by dividing the product of the two numbers by their greatest common factor/divisor (GCF/GCD). I'm not going to go over how to find the GCF of two numbers. If you want to find out about an efficient way to get the GCF of two numbers, search up the __Eucalidean Algorithm__ _(unless you really want to, you don't have to understand the proof, just know that it works)_. In the case of Python, there are already functions to find the lcm and gcd, but when you're trying to learn cool math stuff like me, where's the fun in tha?
+
+![solve_for_lcm](https://github.com/GOATMaxwellN/ProjectEulerSoftware/blob/main/euler1/formulae_images/solve_for_lcm.svg)
+
+As you've probably guessed, you plug in 3 and 5 to that equation and you will get 15 as the LCM. So now the final equation is this. (SOM = sum of multiples)
+
+![solve_for_two_som](https://github.com/GOATMaxwellN/ProjectEulerSoftware/blob/main/euler1/formulae_images/solve_for_two_som.svg)
+
+Once you plug in 3 and 5 to that equation, you will get the answer to the Project Euler question, in what might be one of the most efficient ways to do it.
+
+# Conclusion
+
+Learned a lot of cool stuff while making this very small CLI. Maybe one day somebody else will find this useful.
