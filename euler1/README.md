@@ -68,9 +68,9 @@ Now we need to know how many numbers are in the range. Your first thought might 
 
 <img src='https://github.com/GOATMaxwellN/ProjectEulerSoftware/blob/main/euler1/formulae_images/solve_for_n.svg' height='30'>
 
-At first sight, this is an equation that solves for the last term (___a<sub>n</sub>___) in the range. But we already know ___a<sub>n</sub>___, so we can actually use it to solve for ___n___, which is the total amount of terms in the series. ___d___ is the difference, which is just going to be the number we're finding the multiples for. It's basically the constant amount at which the series increases.
+At first sight, this is an equation that solves for the last term (___a<sub>n</sub>___) in the range. But we already have a way to get ___a<sub>n</sub>___, so we can actually use it to solve for ___n___, which is the total amount of terms in the series. ___d___ is the difference, which is just going to be the number we're finding the multiples for. It's basically the constant amount at which the series increases.
 
-Quick examples: 1, 2, 3, 4 d=1 | 12, 15, 18, 21 d=4 | 10, 20, 30, 40 d=10
+Quick examples: 1, 2, 3, 4 __d=1__ | 12, 15, 18, 21 __d=4__ | 10, 20, 30, 40 __d=10__
 
 The equation makes a little bit more sense when you look at a series like this.
 
@@ -78,4 +78,26 @@ Normal series | __d = 3__
 -------- | --------
 __3, 6, 9, 12, .., 30__ | __0+d, 0+2d, 0+3d, 0+4d, .., 0+nd__
 
-Hopefully that helps you see how the equation above can solve for the last term (___a<sub>n</sub>___). Because it starts at ___a<sub>1</sub>___, you got to subtract 1 from ___n___.
+Hopefully that helps you see how the equation above can solve for the last term (___a<sub>n</sub>___). Because it starts at ___a<sub>1</sub>___, you got to subtract 1 from ___n___, or else your answer would be ___d___ too high.
+
+Let's plug in our numbers to figure out how many multiples of 3 are between 3 and 99.
+
+![solve_for_n_example](https://github.com/GOATMaxwellN/ProjectEulerSoftware/blob/main/euler1/formulae_images/solve_for_n_example.svg)
+
+> Remember, if lowerbound of the range is lowest term possible (ie. the number you want the sum of multiples for), then simply dividing ___a<sub>n</sub>___ by that term is enough. It would work for the 3-99 range that we're using. If the range were 12-99, the equation above __must__ be used to get the correct ___n___. 
+
+## Step 3. Solve with Finite Sum of Arithmetic series formula.
+
+Now you know how the CLI gets the correct ___a<sub>1</sub>___, ___a<sub>n</sub>___ and ___n___. All we have to do now is plug all of those in to our Finite Sum of Arithmetic series formula.
+
+<img src='https://github.com/GOATMaxwellN/ProjectEulerSoftware/blob/main/euler1/formulae_images/solve_with_fsoas.svg' height='60'>
+
+You can double check that with a loop to find that the answer is correct! This is also a TON faster than a normal loop once it gets to the higher ranges and higher numbers. 
+
+> To my knowledge, this should work for any number and any natural number range. If anybody actually sees this and is able to get an incorrect answer, please let me know.
+
+# Solve for two different numbers.
+
+Alright, the above is awesome. If you only want the sum of multiples of one number, just pass one number to the CLI and it will do the work for you. Once you pass two numbers though, it very slightly different. 
+
+The thing that happens with two numbers is that there is going to a good chance there will be duplicate multiples. For example, the original Project Euler question asks for the sum of multiples of 3 or 5 under 1000, and they have a significant amount of shared multiples in that range, like 15, 30, 45, ...
