@@ -7,5 +7,14 @@ def fibonacci():
         last, current = current, current+last
         print(f"Fib({i}) is {current}")
 
+def sum_of_even_fib_nums(upperbound):
+    sum = 0
+    last, current = 0, 1
+    while current < upperbound:
+        last, current = current, current+last
+        if current % 2 == 0:
+            sum += current
+    return sum
+
 if __name__ == "__main__":
-    fibonacci()
+    pass
