@@ -17,20 +17,22 @@ def create_file(tail):
     return f
 
 def fibonacci(args):
-    if args.file is not sys.stdout:
-        args.file = create_file(args.file)
+    if args.file is not None:
+        file = create_file(args.file)
     last, current = 0, 1
-    print(f"Fib(0) is {last}", f"Fib(1) is {current}", sep='\n', file=args.file)
-    if args.max_num is None:
-        for cur_term in range(2, args.max_term+1):
+    print(f"Fib(0) is {last}", f"Fib(1) is {current}", sep='\n', file=file)
+    if args.max_term:
+        for cur_term in range(2, args.n+1):
             last, current = current, current+last
-            print(f"Fib({cur_term}) is {current}", file=args.file)
-    else:
+            print(f"Fib({cur_term}) is {current}")
+    elif args.max_num:
         cur_term = 2
-        while current > args.max_num:
+        while current > args.n:
             last, current = current, current+last
-            print(f"Fib({cur_term}) is {current}", file=args.file)
-    args.file.close()
+            print(f"Fib({cur_term}) is {current}")
+            cur_term += 1
+    if file:
+        file.close()
 
 def nth_fibonacci(args):
     if args.max_term == 0:
@@ -62,7 +64,7 @@ if __name__ == "__main__":
                        help='Uses n to go through all fibonacci values up to the nth term. F(0) to F(n).')
     group.add_argument('-mn', '--max-num', action='store_true',
                        help='Uses n to go through all fibonacci values with a value less than n. F(0) to F(?) > n')
-    parser_list.add_argument('-f', '--file', type=str, default=sys.stdout,
+    parser_list.add_argument('-f', '--file', type=str, default=None,
                              help='Creates text file called FILE. Fibonacci terms will be written to\
                                    FILE instead of the command line. FILE can be an existing path, but the last\
                                    component of the path will be the filename. Any extensions to FILE\
