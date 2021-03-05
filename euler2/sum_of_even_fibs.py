@@ -19,20 +19,33 @@ def create_file(tail):
 def fibonacci(args):
     if args.file is not None:
         file = create_file(args.file)
+    else:
+        file = sys.stdout
     last, current = 0, 1
     print(f"Fib(0) is {last}", f"Fib(1) is {current}", sep='\n', file=file)
     if args.max_term:
         for cur_term in range(2, args.n+1):
             last, current = current, current+last
-            print(f"Fib({cur_term}) is {current}")
+            if filter_value(args, current):
+                print(f"Fib({cur_term}) is {current}")
     elif args.max_num:
         cur_term = 2
-        while current > args.n:
+        while current+last < args.n:
             last, current = current, current+last
-            print(f"Fib({cur_term}) is {current}")
+            if filter_value(args, current):
+                print(f"Fib({cur_term}) is {current}")
             cur_term += 1
-    if file:
+    # close file if one was created
+    if args.file:
         file.close()
+
+def filter_value(args, fib_value):
+    if not args.divisible_by:
+        return True
+    for i in args.divisible_by:
+        if fib_value % i == 0:
+            return True
+    return False
 
 def nth_fibonacci(args):
     if args.max_term == 0:
@@ -43,42 +56,60 @@ def nth_fibonacci(args):
     print(current)
 
 def sum_of_fibs(args):
-    sum = 0
+    if args.file is not None:
+        file = create_file(args.file)
+    else:
+        file = sys.stdout
     last, current = 0, 1
-    while current < args.max_term:
-        last, current = current, current+last
-        if current % 2 == 0:
-            sum += current
-    return sum
+    calculated_sum = 1
+    if args.max_term:
+        for i in range(2, args.n+1):
+            last, current = current, current+last
+            if filter_value(args, current):
+                calculated_sum += current
+    elif args.max_num:
+        while current+last < args.n:
+            last, current = current, current+last
+            if filter_value(args, current):
+                calculated_sum += current
+    # close the file if one was created
+    if args.file:
+        file.close()
+    # print the sum
+    print(f'The sum is {calculated_sum}')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Module with lots of Fibonacci tools.")
     subparsers = parser.add_subparsers()
 
-    parser_list = subparsers.add_parser('list', description='Lists all the fibonacci terms, up to F(n)')
-    parser_list.add_argument('n', type=int, 
+    # 'sum' and 'list' subparsers share the same arguments, so this parent parser will be inherited by those two subparsers
+    list_sum_parent_parser = argparse.ArgumentParser(add_help=False)
+    list_sum_parent_parser.add_argument('n', type=int, 
                              help='Depending on if -mt or -mn is selected, this determines the last fibonacci\
                                    term to go up to, or the biggest fibonacci value to stay below.')
-    group = parser_list.add_mutually_exclusive_group(required=True)
+    group = list_sum_parent_parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-mt', '--max-term', action='store_true',
-                       help='Uses n to go through all fibonacci values up to the nth term. F(0) to F(n).')
+                        help='Uses n to go through all fibonacci values up to the nth term. F(0) to F(n).')
     group.add_argument('-mn', '--max-num', action='store_true',
-                       help='Uses n to go through all fibonacci values with a value less than n. F(0) to F(?) > n')
-    parser_list.add_argument('-f', '--file', type=str, default=None,
-                             help='Creates text file called FILE. Fibonacci terms will be written to\
-                                   FILE instead of the command line. FILE can be an existing path, but the last\
-                                   component of the path will be the filename. Any extensions to FILE\
-                                   will be stripped away, the end result will always be FILE.txt.\
-                                   WARNING: if FILE already exists, all of its contents will be deleted\
-                                   before writing the terms')
+                        help='Uses n to go through all fibonacci values with a value less than n. F(0) to F(?) > n')
+    list_sum_parent_parser.add_argument('-db', '--divisible-by', type=int, nargs='+', default=[],
+                                        help='Only prints the Fibonacci values that are divisible by the numbers passed into this argument')
+    list_sum_parent_parser.add_argument('-f', '--file', type=str, default=None,
+                                        help='Creates text file called FILE. Fibonacci terms will be written to\
+                                        FILE instead of the command line. FILE can be an existing path, but the last\
+                                        component of the path will be the filename. Any extensions to FILE\
+                                        will be stripped away, the end result will always be FILE.txt.\
+                                        WARNING: if FILE already exists, all of its contents will be deleted\
+                                        before writing the terms')
+    
+    parser_list = subparsers.add_parser('list', parents=[list_sum_parent_parser], description='Lists all the fibonacci terms, up to F(n)')
     parser_list.set_defaults(func=fibonacci)
 
     parser_nth_fibonacci = subparsers.add_parser('nth_fibonacci', description='Given n, returns F(n).')
     parser_nth_fibonacci.add_argument('n', type=int, help='The fibonacci term you want')
     parser_nth_fibonacci.set_defaults(func=nth_fibonacci)
 
-    parser_sum = subparsers.add_parser('sum', description='Calculates the sum of desired Fibonacci terms')
-    parser_sum.add_argument('n', type=int, help='The range in which to calculate for Fibonacci terms. F(0) to F(n)')
+    parser_sum = subparsers.add_parser('sum', parents=[list_sum_parent_parser], description='Adds up all the calculated Fibonacci terms')
     parser_sum.set_defaults(func=sum_of_fibs)
 
     args = parser.parse_args()
