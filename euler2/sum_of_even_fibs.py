@@ -1,22 +1,27 @@
-"""Module that calculates the sum of whatever fibonacci numbers you care about"""
+"""CLI with some fibonacci calculating tools"""
 import argparse
 import os
 import sys
 
 def create_file(tail):
+    """Creates a file in order to write the results of the desired calculation"""
     head, tail = os.path.split(tail)
+    # checks if directories listed exist
     if not os.path.exists(head):
         sys.exit(f"{head}: Directory does not exist or is not relative to current directory. "
                    "Create the directory or use the absolute path. It may also be that the filename "
                    "doesn't conform to file naming conventions")
     elif tail == '':
         sys.exit("FILE must not end with a slash. The last component of the path should be the filename.")
+    # gets rid of any extensions placed by user and replaces with '.txt'
     tail = tail.split('.')[0]
     tail += '.txt'
     f = open(os.path.join(head,tail), "w")
     return f
 
 def fibonacci(args):
+    """Used by the 'list' subparser. Writes all desired fibonacci terms and their values to either
+    sys.stdout or a created file if user requested one"""
     if args.file is not None:
         file = create_file(args.file)
     else:
@@ -40,6 +45,8 @@ def fibonacci(args):
         file.close()
 
 def filter_value(args, fib_value):
+    """Makes sure fibonacci terms and values calculated conform to user's wants. Currently only 
+    able to filter by if the fibonacci value is a multiple of requested numbers"""
     if not args.divisible_by:
         return True
     for i in args.divisible_by:
@@ -48,6 +55,7 @@ def filter_value(args, fib_value):
     return False
 
 def nth_fibonacci(args):
+    """Prints out value of requested fibonacci term"""
     if args.max_term == 0:
         return print(0)
     last, current = 0, 1
@@ -56,6 +64,7 @@ def nth_fibonacci(args):
     print(current)
 
 def sum_of_fibs(args):
+    """Adds up all fibonacci values that conform to user's wants and prints out the sum"""
     if args.file is not None:
         file = create_file(args.file)
     else:
@@ -79,7 +88,7 @@ def sum_of_fibs(args):
     print(f'The sum is {calculated_sum}')
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Module with lots of Fibonacci tools.")
+    parser = argparse.ArgumentParser(description="CLI with few tools")
     subparsers = parser.add_subparsers()
 
     # 'sum' and 'list' subparsers share the same arguments, so this parent parser will be inherited by those two subparsers
