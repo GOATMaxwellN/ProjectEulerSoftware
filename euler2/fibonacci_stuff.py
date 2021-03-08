@@ -87,6 +87,41 @@ def sum_of_fibs(args):
     # print the sum
     print(f'The sum is {calculated_sum}')
 
+def sum_of_even_fibs(args):
+    """Efficient way to find sum of even fibonaccis"""
+    if args.file is not None:
+        file = create_file(args.file)
+    else:
+        file = sys.stdout
+    sum = 10
+    last, current = 2, 8
+    while True:
+        new_current = 4*current+last
+        if new_current < args.n:
+            last, current = current, new_current
+            sum += new_current
+        else:
+            break
+    print('Sum:', sum, file=file)
+    return
+
+def list_even_fibs(args):
+    """Efficient way to list sum of even fibonaccis"""
+    if args.file is not None:
+        file = create_file(args.file)
+    else:
+        file = sys.stdout
+    last, current = 2, 8
+    print(last, current, sep='\n', file=file)
+    while True:
+        new_current = 4*current+last
+        if new_current < args.n:
+            last, current = current, new_current
+            print(new_current, file=file)
+        else:
+            return
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="CLI with few tools")
     subparsers = parser.add_subparsers()
@@ -120,6 +155,19 @@ if __name__ == "__main__":
 
     parser_sum = subparsers.add_parser('sum', parents=[list_sum_parent_parser], description='Adds up all the calculated Fibonacci terms')
     parser_sum.set_defaults(func=sum_of_fibs)
+
+    parser_sum_of_even_fibs = subparsers.add_parser(
+        'sum_of_even_fibs', description='Efficient way to calculate sum of even fibonacci values up to n')
+    parser_sum_of_even_fibs.add_argument('n', type=int)
+    parser_sum_of_even_fibs.add_argument('-f', '--file', type=str, default=None)
+    parser_sum_of_even_fibs.set_defaults(func=sum_of_even_fibs)
+
+    parser_list_even_fibs = subparsers.add_parser(
+        'list_even_fibs', description='Efficient way to list even fibonacci values up to n'
+    )
+    parser_list_even_fibs.add_argument('n', type=int)
+    parser_list_even_fibs.add_argument('-f', '--file', type=str, default=None)
+    parser_list_even_fibs.set_defaults(func=list_even_fibs)
 
     args = parser.parse_args()
     args.func(args)
