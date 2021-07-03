@@ -38,7 +38,7 @@ Let's say I've passed in 3 as the number we are going to look for multiples for,
 
 Since we are dealing with multiples, we know every number in the series will be a multiple of 3. That already means that I can't use the upper and lower bounds of the range that I passed to the CLI. 1 and 100 will not be in the series, so we have to find the correct first and last term. Luckily, my CLI does not assume that the bounds of the series are exact. Here is how we find the correct ___a<sub>1</sub>___ and ___a<sub>n</sub>___.
 
-Let's start with ___a<sub>n</sub>___, our last term. We want to find the multiple of 3 that is closest to 100. That can easily be done by dividing 100 by 3, stripping off the decimal, then multiplying it back up by 3. Stripping off the decimal (aka flooring) is important part of this equation. If you don't do it, you are just going to get 100 back. Seeing it might make more sense. __(100 // 3) * 3__ (double slashes do floor division in Python).
+Let's start with ___a<sub>n</sub>___, our last term. We want to find the multiple of 3 that is closest to 100. That can easily be done by dividing 100 by 3, stripping off the decimal, then multiplying it back up by 3. Stripping off the decimal (aka truncating) is important part of this equation. If you don't do it, you are just going to get 100 back. Seeing it might make more sense. __(100 // 3) * 3__ (double slashes do floor division in Python, which with positive numbers is the same as truncating).
 
 - 100 / 3 = 33.33333..
 - Floor the answer above if needed = 33
@@ -51,13 +51,13 @@ Let's start with ___a<sub>n</sub>___, our last term. We want to find the multipl
 Let's figure out our ___a<sub>1</sub>___ now. It's pretty much the same equation as the one above, except that unless the lowerbound is already a multiple of 3, the answer will fall below the lowerbound. Here is a demonstration.
 
 - 1 / 3 = 0.33333..
-- Floor the answer above if needed = 0
+- Truncate the answer above if needed = 0
 - 0 * 3 = 0
 
-0 is less than 1, which means it is outside of the range. What we need to do is add 1 after flooring the initial division. The equation would now look like this. __(100 // 3 + 1) * 3__.
+0 is less than 1, which means it is outside of the range. What we need to do is add 1 after flooring the initial division. The equation would now look like this. __(1 // 3 + 1) * 3__.
 
 - 1 / 3 = 0.33333..
-- Floor the answer above, then add 1 = 0 + 1
+- Truncate the answer above, then add 1 = 0 + 1
 - 1 * 3 = 3
 
 ___Remember, you only need to add 1 if the lowerbound is not a multiple of the number you're using___.
