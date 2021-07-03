@@ -23,7 +23,7 @@ __Here are some uses of the formula.__
 
 ![example3](https://github.com/GOATMaxwellN/ProjectEulerSoftware/blob/main/euler1/formulae_images/example3.svg)
 
-> Note: You might recognize that the first part of the formula (the division) is just finding the median/average of the first and last terms. So this is is basically just getting  the middle of the range, then multiplying it by how many values are in the series.
+> Note: You might recognize that the first part of the formula (the division) is just finding the average of the first and last terms. So this is is basically just getting  the middle of the range, then multiplying it by how many values are in the series.
 ---
 
 # Code Functionality
